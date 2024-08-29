@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <h1>Login</h1>
+    <label for="username">Username</label>
+    <input type="text" id="username" name="username" required />
+    <br />
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" required />
+    <br />
+    <button type="submit" id="login">Login</button>
+  </body>
+  <!-- <script src="frontLogin.js"></script> -->
+  <script>
+    const username = document.querySelector("#username");
+    const password = document.querySelector("#password");
+    const button = document.querySelector("#login");
+    button.onclick = async () => {
+      try {
+        loginResp = await fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username.value,
+            password: password.value,
+          }),
+        });
+        if (loginResp.redirected) {
+          console.log("redirecting to ", loginResp.url);
+          window.location.href = loginResp.url;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  </script>
+</html>
