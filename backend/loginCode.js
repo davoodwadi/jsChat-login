@@ -70,6 +70,7 @@ app.use(express.urlencoded({ extended: true }));
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import GoogleStrategy from "passport-google-oauth20";
+import FacebookStrategy from "passport-facebook";
 import { users } from "./users.js";
 
 passport.use(
@@ -121,10 +122,9 @@ console.log("clientidtest", process.env["FACEBOOK_CLIENT_ID_TEST"]);
 passport.use(
   new FacebookStrategy(
     {
-      clientID: process.env["FACEBOOK_CLIENT_ID_TEST"],
-      clientSecret: process.env["FACEBOOK_CLIENT_SECRET_TEST"],
-      callbackURL:
-        "https://todos-express-facebook.onrender.com/oauth2/redirect/facebook",
+      clientID: process.env.FACEBOOK_CLIENT_ID_TEST,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET_TEST,
+      callbackURL: "/auth/facebook/callback",
       state: true,
     },
     function verify(accessToken, refreshToken, profile, cb) {
@@ -178,13 +178,24 @@ app.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
-
 app.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   function (req, res) {
     // Successful authentication, redirect home.
     console.log("logged in succesfully");
+    console.log("session redirect:", req.session);
+    res.redirect("/profileInfo");
+  }
+);
+
+app.get("/auth/facebook", passport.authenticate("facebook"));
+app.get(
+  "/auth/facebook/callback",
+  passport.authenticate("facebook", { failureRedirect: "/" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    console.log("logged in succesfully facebook");
     console.log("session redirect:", req.session);
     res.redirect("/profileInfo");
   }

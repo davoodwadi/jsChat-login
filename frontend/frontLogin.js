@@ -4,12 +4,10 @@ const button = document.querySelector("#login");
 const googleButton = document.querySelector("#google");
 const facebookButton = document.querySelector("#facebook");
 googleButton.onclick = async () => {
-  // const profile = await fetch("/auth/google", {
-  //   method: "GET",
-  // });
-  // console.log(profile);
   window.location.href = "/auth/google";
-  // window.location.href = "/auth/google/callback";
+};
+facebookButton.onclick = async () => {
+  window.location.href = "/auth/facebook";
 };
 
 button.onclick = async () => {
