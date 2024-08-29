@@ -4,7 +4,7 @@
   "type": "module",
   "main": "backend/server.js",
   "scripts": {
-    "devStart": "nodemon backend/server.js"
+    "devStart": "nodemon backend/loginCode.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "node-fetch": "^3.3.2",
     "openai": "^4.55.4",
     "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
