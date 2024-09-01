@@ -1,13 +1,16 @@
-import {
-  getDB,
-  getUser,
-  addUser,
-  getAllMatchingUsers,
-  getLatestSession,
-  updateInfo,
-  addSaveContainer,
-  id2User,
-} from "./mongo.js";
+// import {
+//   getDB,
+//   getUser,
+//   addUser,
+//   getAllMatchingUsers,
+//   getLatestSession,
+//   updateInfo,
+//   addSaveContainer,
+//   id2User,
+// } from "./mongo.js";
+import { User, MAX_TOKENS_PER_MONTH } from "./mongooseSchema.js";
+import { refreshQuota } from "./dateManipulations.js";
+import { addUser } from "./mongooseCode.js";
 import express from "express";
 import session from "express-session";
 import MongoDBStore from "connect-mongodb-session";
@@ -83,10 +86,162 @@ app.use(
 );
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+import passport from "passport";
+import LocalStrategy from "passport-local";
+import GoogleStrategy from "passport-google-oauth20";
+import FacebookStrategy from "passport-facebook";
+
+passport.use(
+  new LocalStrategy(async function (username, password, done) {
+    // const user = users.filter((u) => u.username === username);
+    const userDb = await getUser({ username: username });
+    console.log("localStrategy userDb", userDb);
+    if (!userDb) {
+      return done(null, false);
+    } else {
+      console.log("validate: checking user ", userDb);
+      if (userDb.username === username && userDb.password === password)
+        console.log("validate success: returning user ", userDb);
+      return done(null, userDb);
+    }
+  })
+);
+// console.log(process.env.GOOGLE_CLIENT_ID);
+function addObjectIfNotExists(array, object) {
+  if (!array.some((item) => JSON.stringify(item) === JSON.stringify(object))) {
+    array.push(object);
+  }
+}
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "/auth/google/callback",
+    },
+    async function (accessToken, refreshToken, profile, cb) {
+      // console.log("profile", profile);
+      const user = {
+        id: profile.id,
+        displayName: profile.displayName,
+        givenName: profile.name.givenName,
+        familyName: profile.name.familyName,
+        username: profile.emails[0].value,
+        email: profile.emails[0].value,
+        emails: profile.emails,
+        photos: profile.photos,
+        photo: profile.photos[0].value,
+      };
+      try {
+        const resAdd = await addUser(user);
+        const userDb = await User.findOne({ username: user.username });
+        console.log("entry found");
+        userDb.lastLogin = new Date();
+        await userDb.save();
+        console.log(userDb.tokensRemaining);
+        return cb(null, userDb);
+      } catch (error) {
+        console.log(error);
+      }
+
+      // try {
+      //   //
+      //   console.log("googleStrategy: adding user to db", user.username); // addUser already checks for existence
+      //   const resAdd = await addUser(user);
+      //   //
+      //   console.log("looking for entry");
+      //   const userDb = await getUser({ username: user.username });
+      //   console.log("entry found");
+      //   await updateInfo(userDb.username, { lastLogin: new Date() });
+      //   return cb(null, userDb);
+      // } catch (error) {
+      //   console.log(error);
+      // }
+    }
+  )
+);
+passport.serializeUser(function (user, cb) {
+  cb(null, user.username);
+});
+// use id to recall the user
+passport.deserializeUser(async function (username, cb) {
+  // const user = users.filter((user) => user.username === username);
+  const userDb = await User.findOne({ username: username });
+
+  if (!userDb) {
+    return cb(null, false); //new Error("User not found")
+  }
+  console.log("deserialize: returning user ", userDb.username);
+  return cb(null, userDb);
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    console.log("logged in succesfully");
+    // console.log("session redirect:", req.session);
+    res.redirect("/");
+  }
+);
 
 // Route for the index.html file
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/index.html"));
+});
+
+app.get("/users/profile", async (req, res) => {
+  // console.log(req.session);
+  if (req.isAuthenticated()) {
+    console.log("returning profile");
+
+    // check for tokenRefresh
+    const userDb = await User.findOne({ username: req.user.username });
+    const refreshResult = await refreshQuota(userDb);
+    console.log("refreshResult for quota:  ", refreshResult);
+    //
+    res.json({
+      username: req.user.username,
+      lastLogin: req.user.lastLogin,
+      displayName: req.user.displayName,
+      createdAt: req.user.createdAt,
+      quotaRefreshedAt: req.user.quotaRefreshedAt,
+      tokensConsumed: req.user.tokensConsumed,
+      tokensRemaining: req.user.tokensRemaining,
+      maxTokensPerMonth: req.user.maxTokensPerMonth,
+    });
+  } else {
+    console.log("not logged in");
+    // res.redirect("/login");
+    res.status(404).send();
+  }
+});
+
+app.get("/users/logout", function (req, res, next) {
+  console.log("logging out: ", req.user);
+  req.logout(function (err) {
+    if (err) {
+      // res.status(500);
+      return next(err);
+    }
+    // res.redirect("/");
+    res.status(200).send("server: logged out");
+  });
+});
+
+app.post("/signup", (req, res, next) => {
+  console.log("signup called");
+  console.log(req.body);
 });
 
 // test session storage
@@ -95,11 +250,11 @@ app.get("/test-session", test);
 app.get("/users/load", load);
 app.post("/users/save", save);
 
-app.post("/users/signup", signup);
-app.post("/users/login", login);
-app.get("/users/logout", logout);
+// app.post("/users/signup", signup);
+// app.post("/users/login", login);
+// app.get("/users/logout", logout);
 
-app.get("/users/profile", authenticate, profile);
+// app.get("/users/profile", authenticate, profile);
 
 // LLM calls start
 // Endpoint to handle API requests

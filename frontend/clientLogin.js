@@ -1,6 +1,6 @@
 // const urlBase = 'https://chat.intelchain.io'
 // const urlBase = 'http://127.0.0.1:3000'
-const loginUrl = "";
+const loginUrl = "/users";
 
 export async function signupUser(username, password) {
   const res = await fetch(loginUrl + "/signup", {
@@ -80,8 +80,6 @@ export async function saveSession(saveContainer) {
   const res = await fetch(loginUrl + "/save", {
     method: "POST",
     body: JSON.stringify({
-      // username: username,
-      // password: password,
       saveContainer: saveContainer,
     }),
     headers: { "Content-Type": "application/json" },

@@ -185,7 +185,7 @@ app.get(
     // Successful authentication, redirect home.
     console.log("logged in succesfully");
     console.log("session redirect:", req.session);
-    res.redirect("/profileInfo");
+    res.redirect("/");
   }
 );
 
@@ -262,7 +262,7 @@ app.get("/profile", (req, res) => {
   if (req.isAuthenticated()) {
     console.log("returning profile");
     // res.sendFile(path.join(frontendPath, "profile.html"));
-    // res.json({ username: req.user.username });
+    res.json({ username: req.user.username });
   } else {
     console.log("not logged in");
     // res.redirect("/login");
