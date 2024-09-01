@@ -69,7 +69,7 @@ export function createGoogleButtons() {
       `;
 
   googleButton.onclick = async () => {
-    googleIcon = googleButton.querySelector("#googleIcon");
+    const googleIcon = googleButton.querySelector("#googleIcon");
     googleIcon.classList.add("google-spinner");
     window.location.href = "/auth/google";
   };
