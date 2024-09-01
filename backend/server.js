@@ -119,7 +119,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "https://www.spreed.chat/auth/google/callback",
     },
     async function (accessToken, refreshToken, profile, cb) {
       // console.log("profile", profile);
@@ -168,6 +168,7 @@ passport.serializeUser(function (user, cb) {
 // use id to recall the user
 passport.deserializeUser(async function (username, cb) {
   // const user = users.filter((user) => user.username === username);
+  console.log("*".repeat(10), "deserialize: ", username);
   const userDb = await User.findOne({ username: username });
 
   if (!userDb) {
@@ -211,14 +212,14 @@ app.get("/users/profile", async (req, res) => {
     console.log("refreshResult for quota:  ", refreshResult);
     //
     res.json({
-      username: req.user.username,
-      lastLogin: req.user.lastLogin,
-      displayName: req.user.displayName,
-      createdAt: req.user.createdAt,
-      quotaRefreshedAt: req.user.quotaRefreshedAt,
-      tokensConsumed: req.user.tokensConsumed,
-      tokensRemaining: req.user.tokensRemaining,
-      maxTokensPerMonth: req.user.maxTokensPerMonth,
+      username: userDb.username,
+      lastLogin: userDb.lastLogin,
+      displayName: userDb.displayName,
+      createdAt: userDb.createdAt,
+      quotaRefreshedAt: userDb.quotaRefreshedAt,
+      tokensConsumed: userDb.tokensConsumed,
+      tokensRemaining: userDb.tokensRemaining,
+      maxTokensPerMonth: userDb.maxTokensPerMonth,
     });
   } else {
     console.log("not logged in");
