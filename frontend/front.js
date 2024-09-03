@@ -85,6 +85,16 @@ async function handleDOMContentLoaded() {
     chatBoxContainer.appendChild(loadSaveContainer);
   }
 
+  // add copyright and privacy policy
+  const footer = document.createElement("footer");
+
+  footer.innerHTML = `
+      <p>&copy; 2024 Spreed.chat. All rights reserved.</p>
+      <p><a href="privacy.html" style="text-decoration: none; color: #007bff;">Privacy Policy</a></p>
+  `;
+  document.body.append(footer);
+  //
+
   //
   // login/signup end
   //

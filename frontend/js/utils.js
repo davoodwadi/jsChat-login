@@ -24,7 +24,10 @@ export function setAttributeForMessageParents(thisElement) {
 
 export function showToast(outcome, note, duration) {
   // outcome: failure or success
-  const toast = document.getElementById(`toast-${outcome}`);
+  // <div id="toast-success" class="toast-success">Save successful!</div>
+  const toast = document.createElement("div");
+  toast.id = `toast-${outcome}`;
+  toast.classList.add(`toast-${outcome}`);
   if (note) {
     toast.textContent = note;
   } else if (outcome == "success") {
@@ -38,8 +41,10 @@ export function showToast(outcome, note, duration) {
   //   console.log("setting the duration to ", duration);
   //   dur = duration;
   // }
+  document.body.prepend(toast);
   setTimeout(() => {
     toast.className = toast.className.replace("show", "");
+    toast.remove();
   }, dur); // Duration for how long the toast is displayed
 }
 
