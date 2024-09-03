@@ -144,6 +144,7 @@ input {
   padding: 10px;
   margin: 5px 0;
   position: relative;
+  min-width: 90vw;
 }
 
 .user {
@@ -161,7 +162,7 @@ input {
 
 .non-editable[contenteditable="false"]:empty:before {
   content: attr(data-placeholder);
-  color: #999;
+  color: #1b1313;
 }
 
 .branch-container {
