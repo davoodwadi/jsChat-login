@@ -24,7 +24,8 @@
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
     "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.4"
+    "passport-twitter": "^1.0.4",
+    "stripe": "^16.9.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"
