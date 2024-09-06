@@ -213,7 +213,7 @@ export const createProfileSection = (profile) => {
   const formattedTokens = profile.tokensRemaining.toLocaleString("en-US");
   const profileSection = document.createElement("div");
   profileSection.innerHTML = `
-      <div class="profile-section">
+      <div class="profile-section" id="profileBox">
           <div>
               <h1 class="profile-title">Welcome, <span id="profileUsername">${
                 profile.displayName ? profile.displayName : profile.username
@@ -225,10 +225,20 @@ export const createProfileSection = (profile) => {
           <div class="profile-box">
               <span class="profile-label">Quota refreshed at <span><i id="quotaRefreshedAt">${quotaRefreshedAt}</i></span></span>
           </div>
+
+          <form action="/create-checkout-session" method="POST">
+            <button type="submit" id="payButton">Top up</button>
+          </form>
       </div>
   `;
   profileSection.id = "profileSection";
   profileSection.classList.add("authentication-box");
+
+  // payment button
+  const payButton = profileSection.querySelector("#payButton");
+  // END payment button
+  
+  
   return profileSection;
 };
 

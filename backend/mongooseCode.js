@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import { User } from "./mongooseSchema.js";
+
+import { configDotenv } from "dotenv";
+const envLoaded = configDotenv('../.env')
 const mongoPassword = process.env.mongoPassword;
 const db = "chat";
 const mongoURI =

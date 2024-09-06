@@ -14,8 +14,7 @@ import { addUser } from "./mongooseCode.js";
 import express from "express";
 import session from "express-session";
 import MongoDBStore from "connect-mongodb-session";
-import path from "path";
-import { fileURLToPath } from "url";
+
 
 import {
   load,
@@ -36,7 +35,12 @@ import {
   hfCompletions8b,
   streamGpt,
 } from "./apiRequests.js";
+import { configDotenv } from "dotenv";
+const envLoaded = configDotenv('../.env')
+console.log(`envLoaded: ${envLoaded.parsed}`)
 
+import path from "path";
+import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // const isHttps = true;
@@ -46,6 +50,7 @@ const app = express();
 // mongodb session
 const store = new MongoDBStore(session);
 const mongoPassword = process.env.mongoPassword;
+// console.log('mongoPassword: ', mongoPassword)
 const uri =
   "mongodb+srv://davoodwadi:<password>@cluster0.xv9un.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0".replace(
     "<password>",
@@ -91,7 +96,6 @@ app.use(express.urlencoded({ extended: true }));
 import passport from "passport";
 import LocalStrategy from "passport-local";
 import GoogleStrategy from "passport-google-oauth20";
-import FacebookStrategy from "passport-facebook";
 
 passport.use(
   new LocalStrategy(async function (username, password, done) {
@@ -109,17 +113,13 @@ passport.use(
   })
 );
 // console.log(process.env.GOOGLE_CLIENT_ID);
-function addObjectIfNotExists(array, object) {
-  if (!array.some((item) => JSON.stringify(item) === JSON.stringify(object))) {
-    array.push(object);
-  }
-}
+
 passport.use(
   new GoogleStrategy(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://www.spreed.chat/auth/google/callback",
+      callbackURL: `${process.env.SERVER_ADDRESS}/auth/google/callback`,
     },
     async function (accessToken, refreshToken, profile, cb) {
       // console.log("profile", profile);
@@ -146,19 +146,6 @@ passport.use(
         console.log(error);
       }
 
-      // try {
-      //   //
-      //   console.log("googleStrategy: adding user to db", user.username); // addUser already checks for existence
-      //   const resAdd = await addUser(user);
-      //   //
-      //   console.log("looking for entry");
-      //   const userDb = await getUser({ username: user.username });
-      //   console.log("entry found");
-      //   await updateInfo(userDb.username, { lastLogin: new Date() });
-      //   return cb(null, userDb);
-      // } catch (error) {
-      //   console.log(error);
-      // }
     }
   )
 );
@@ -239,6 +226,76 @@ app.get("/users/logout", function (req, res, next) {
     res.status(200).send("server: logged out");
   });
 });
+
+// stripe
+import Stripe from 'stripe';
+const stripe = new Stripe(process.env.STRIPE_KEY_TEST);
+import {product, price} from './create_price.js'
+// console.log(price)
+// use req.user.username as the session description 
+app.post('/create-checkout-session', async (req, res) => {
+  try{
+    const session = await stripe.checkout.sessions.create({
+      line_items: [
+        {
+          price: price.id,
+          quantity: 1
+        },  
+      ],
+      metadata:{
+        username:req.user.username
+      },
+      mode: 'payment',
+      success_url: `${process.env.SERVER_ADDRESS}/?session_id={CHECKOUT_SESSION_ID}`, // Pass session_id in URL
+      cancel_url: `${process.env.SERVER_ADDRESS}/?session_id=0`,
+    });
+    console.log('session.url: ', session.url)
+    console.log('CHECKOUT: req.user.username: ', req.user.username)
+    console.log('CHECKOUT: session.metadata.username: ', session.metadata.username)
+    res.redirect(303, session.url);
+  } catch(error){
+    console.log(`ERROR with Stripe API: ${error}`)
+    res.status(500)
+  }
+});
+
+app.post('/stripe_webhooks', express.json(), async (req, res) => {
+  const event = req.body;
+
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object; // Stripe session object
+        console.log('WEBHOOK: session.metadata.username: ', session.metadata.username)
+        // Get user information from stored session details
+        // const storedSession = await db.getSessionBySessionId(session.id);
+
+        if (session.payment_status === 'paid' && session.metadata.username) {
+          try {
+            // Top up the user's account
+            const userDb = await User.findOne({username:session.metadata.username})
+            userDb.tokensRemaining += userDb.maxTokensPerMonth
+            await userDb.save()
+            console.log(`Account successfully topped up ${userDb.maxTokensPerMonth} tokens for user:`, session.metadata.username, session.id, '\n AKA \n', userDb.username);
+          } catch(error){
+
+          }
+        }
+
+        break;
+      }
+      default:
+        // console.log(`Unhandled event type ${event.type}`);
+    }
+
+    res.json({ received: true });
+  } catch (error) {
+    console.error('Webhook handler error:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+// END stripe
 
 app.post("/signup", (req, res, next) => {
   console.log("signup called");
