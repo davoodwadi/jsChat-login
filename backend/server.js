@@ -10,7 +10,7 @@
 // } from "./mongo.js";
 import { User, MAX_TOKENS_PER_MONTH } from "./mongooseSchema.js";
 import { refreshQuota } from "./dateManipulations.js";
-import { addUser } from "./mongooseCode.js";
+import { addUser, findCheckoutSessionById, updateCheckoutSessionById } from "./mongooseCode.js";
 import express from "express";
 import session from "express-session";
 import MongoDBStore from "connect-mongodb-session";
@@ -90,7 +90,7 @@ app.use(
   })
 );
 
-app.use(express.json());
+// app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 import passport from "passport";
@@ -242,16 +242,18 @@ app.post('/create-checkout-session', async (req, res) => {
           quantity: 1
         },  
       ],
-      metadata:{
-        username:req.user.username
-      },
       mode: 'payment',
       success_url: `${process.env.SERVER_ADDRESS}/?session_id={CHECKOUT_SESSION_ID}`, // Pass session_id in URL
       cancel_url: `${process.env.SERVER_ADDRESS}/?session_id=0`,
     });
+    const userDb = await User.findOne({username: req.user.username})
+    userDb.checkoutSessions.push(session)
+    await userDb.save()
+    // console.log('CHECKOUT session: ', session)
     console.log('session.url: ', session.url)
     console.log('CHECKOUT: req.user.username: ', req.user.username)
     console.log('CHECKOUT: session.metadata.username: ', session.metadata.username)
+    console.log(`CHECKOUT: session.id: ${session.id}`)
     res.redirect(303, session.url);
   } catch(error){
     console.log(`ERROR with Stripe API: ${error}`)
@@ -259,41 +261,91 @@ app.post('/create-checkout-session', async (req, res) => {
   }
 });
 
-app.post('/stripe_webhooks', express.json(), async (req, res) => {
-  const event = req.body;
+const endpointSecret = process.env.WEBHOOK_SECRET
+// const endpointSecret = 'sdfsdf'
+app.post('/stripe_webhooks', express.raw({type: 'application/json'}), async (request, response) => {
+  const sig = request.headers['stripe-signature'];
+  console.log('*'.repeat(10))
+
+  let event;
 
   try {
-    switch (event.type) {
-      case 'checkout.session.completed': {
-        const session = event.data.object; // Stripe session object
-        console.log('WEBHOOK: session.metadata.username: ', session.metadata.username)
-        // Get user information from stored session details
-        // const storedSession = await db.getSessionBySessionId(session.id);
-
-        if (session.payment_status === 'paid' && session.metadata.username) {
+    event = stripe.webhooks.constructEvent(request.body, sig, endpointSecret);
+  }
+  catch (err) {
+    response.status(400).send(`Webhook Error: ${err.message}`);
+  }
+  // Handle the event
+  switch (event.type) {
+    case "checkout.session.completed":
+      const checkoutSession = event.data.object;
+      console.log('checkoutSession.payment_status: ', checkoutSession.payment_status)
+      const userDb = await updateCheckoutSessionById(checkoutSession.id, checkoutSession)
+      console.log('WEBHOOK userDb: ', userDb)
+        if (checkoutSession.payment_status === 'paid' && userDb) {
           try {
             // Top up the user's account
-            const userDb = await User.findOne({username:session.metadata.username})
             userDb.tokensRemaining += userDb.maxTokensPerMonth
             await userDb.save()
-            console.log(`Account successfully topped up ${userDb.maxTokensPerMonth} tokens for user:`, session.metadata.username, session.id, '\n AKA \n', userDb.username);
+            console.log(`Account successfully topped up ${userDb.maxTokensPerMonth} tokens for user:`, userDb.username, checkoutSession.id);
           } catch(error){
-
+            console.log(`ERROR: updating quota after payment for user ${userDb.username}, session ID: ${checkoutSession.id}, ${error}`)
           }
+        } else {
+          console.log(`ERROR: payment details missing: session ID: ${checkoutSession.id}`)
         }
 
-        break;
-      }
-      default:
-        // console.log(`Unhandled event type ${event.type}`);
-    }
-
-    res.json({ received: true });
-  } catch (error) {
-    console.error('Webhook handler error:', error);
-    res.status(500).send('Internal Server Error');
+      console.log('*'.repeat(10))
+      
+      break;
+    default:
+      console.log(`Unhandled event type ${event.type}`);
   }
+
+  // Return a response to acknowledge receipt of the event
+  response.json({received: true});
 });
+
+// app.post('/stripe_webhooks', express.raw({type: 'application/json'}), async (req, res) => {
+//   const sig = req.headers['stripe-signature'];
+//   console.log('*'.repeat(10))
+//   console.log(sig)
+//   console.log('*'.repeat(10))
+
+//   const event = req.body;
+
+//   try {
+//     switch (event.type) {
+//       case 'checkout.session.completed': {
+//         const session = event.data.object; // Stripe session object
+//         console.log('WEBHOOK: session.metadata.username: ', session.metadata.username)
+//         // Get user information from stored session details
+//         // const storedSession = await db.getSessionBySessionId(session.id);
+
+//         if (session.payment_status === 'paid' && session.metadata.username) {
+//           try {
+//             // Top up the user's account
+//             const userDb = await User.findOne({username:session.metadata.username})
+//             userDb.tokensRemaining += userDb.maxTokensPerMonth
+//             await userDb.save()
+//             console.log(`Account successfully topped up ${userDb.maxTokensPerMonth} tokens for user:`, session.metadata.username, session.id, '\n AKA \n', userDb.username);
+//           } catch(error){
+
+//           }
+//         }
+
+//         break;
+//       }
+//       default:
+//         // console.log(`Unhandled event type ${event.type}`);
+//     }
+
+//     res.json({ received: true });
+//   } catch (error) {
+//     console.error('Webhook handler error:', error);
+//     res.status(500).send('Internal Server Error');
+//   }
+// });
 
 // END stripe
 

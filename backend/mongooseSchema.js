@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
   tokensRemaining: { type: Number, default: MAX_TOKENS_PER_MONTH },
   maxTokensPerMonth: { type: Number, default: MAX_TOKENS_PER_MONTH },
   lastLogin: { type: Date, default: Date.now },
+  checkoutSessions: {
+    type: [mongoose.Schema.Types.Mixed], // Array of any objects
+    default: [], // Default value as an empty array
+  },
 });
 
 // Create the model from the schema
