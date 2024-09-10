@@ -28,53 +28,51 @@ export async function streamGpt(req, res) {
     // get the user
 
     let userDb;
-    try {
-      userDb = await User.findOne({ username: req.user.username });
-      console.log(
-        "*".repeat(10),
-        "[before]: ",
-        userDb.tokensRemaining,
-        " left",
-        "*".repeat(10)
-      );
-      const tempMessagesTokens = encodeChat(req.body.messages);
+    // check for tokens only in production
+    if (process.env.NODE_ENV) {
+      try {
+        userDb = await User.findOne({ username: req.user.username });
+        console.log(
+          "*".repeat(10),
+          "[before]: ",
+          userDb.tokensRemaining,
+          " left",
+          "*".repeat(10)
+        );
+        const tempMessagesTokens = encodeChat(req.body.messages);
 
-      if (userDb.tokensRemaining - tempMessagesTokens.length <= 0) {
-        // need to buy credits
-        console.log(
-          "*".repeat(10),
-          "need to buy tokens: ",
-          "messagetokens:",
-          tempMessagesTokens.length,
-          "; tokensRemaining:",
-          userDb.tokensRemaining,
-          " left ",
-          "*".repeat(10)
-        );
-        return res.status(404).send("no tokens left");
-      } else {
-        // good to go
-        console.log(
-          "*".repeat(10),
-          "[inside] good to go: ",
-          "messagetokens:",
-          tempMessagesTokens.length,
-          "; tokensRemaining:",
-          userDb.tokensRemaining,
-          " left ",
-          "*".repeat(10)
-        );
+        if (userDb.tokensRemaining - tempMessagesTokens.length <= 0) {
+          // need to buy credits
+          console.log(
+            "*".repeat(10),
+            "need to buy tokens: ",
+            "messagetokens:",
+            tempMessagesTokens.length,
+            "; tokensRemaining:",
+            userDb.tokensRemaining,
+            " left ",
+            "*".repeat(10)
+          );
+          return res.status(404).send("no tokens left");
+        } else {
+          // good to go
+          console.log(
+            "*".repeat(10),
+            "[inside] good to go: ",
+            "messagetokens:",
+            tempMessagesTokens.length,
+            "; tokensRemaining:",
+            userDb.tokensRemaining,
+            " left ",
+            "*".repeat(10)
+          );
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
-    // console.log(
-    //   "*".repeat(10),
-    //   "[outside] good to go: ",
-    //   userDb.tokensRemaining,
-    //   " left",
-    //   "*".repeat(10)
-    // );
+    //
+
     // req.body is the post from client
     const stream = openai.beta.chat.completions.stream({
       model: "gpt-4o-mini",

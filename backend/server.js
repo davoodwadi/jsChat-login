@@ -37,6 +37,8 @@ import {
   streamGpt,
 } from "./apiRequests.js";
 
+console.log("process.env.NODE_ENV: ", process.env.NODE_ENV);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 // const isHttps = true;
@@ -119,7 +121,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: "https://www.spreed.chat/auth/google/callback",
+      callbackURL: `${process.env.SERVER_ADDRESS}/auth/google/callback`,
     },
     async function (accessToken, refreshToken, profile, cb) {
       // console.log("profile", profile);

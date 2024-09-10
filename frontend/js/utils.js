@@ -5,12 +5,12 @@ function setAttributeForMessageParentsInner(el) {
       child.classList.contains("message") &&
       !child.classList.contains("dots-message")
     ) {
-      console.log("*".repeat(50));
-      console.log("before attribute set for: ", child);
+      // console.log("*".repeat(50));
+      // console.log("before attribute set for: ", child);
       child.style.maxWidth = "";
-      console.log("after set for: ", child);
-      console.log("width: ", window.getComputedStyle(el).width);
-      console.log("*".repeat(50));
+      // console.log("after set for: ", child);
+      // console.log("width: ", window.getComputedStyle(el).width);
+      // console.log("*".repeat(50));
     }
   }
 }

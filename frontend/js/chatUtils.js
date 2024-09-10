@@ -7,7 +7,7 @@ import {
   showToast,
 } from "./utils.js";
 import { getProfile } from "../clientLogin.js";
-
+const production = true;
 const apiUrlGPT = "/api/gpt/completions/stream";
 // const apiUrlGPT = 'https://chat.intelchain.io/api/gpt/completions/stream'
 // const apiUrlGPT = 'http://127.0.0.1:3000/api/gpt/completions/stream'
@@ -45,8 +45,8 @@ export function handleKeydown(event) {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault(); // Prevent the default behavior of adding a new line
     logEvent(event); // Assuming this function exists to log events
-    console.log("event.target.textContent");
-    console.log(event.target.textContent);
+    // console.log("event.target.textContent");
+    // console.log(event.target.textContent);
     event.target.setAttribute("oldContent", event.target.textContent); // Store old content
     event.target.blur(); // Lose focus
   }
@@ -136,7 +136,7 @@ export async function logEvent(event) {
     // check to see if logged in
     const res = await getProfile();
     console.log("res", res);
-    if (!res.ok) {
+    if (!res.ok && production) {
       const googleButton = document.getElementById("googleButton");
       googleButton.classList.add("glow-green");
       googleButton.scrollIntoView({
@@ -371,12 +371,13 @@ function createElementArray(lastElement) {
 // create message from chain elements
 function createMessageChainGPT(messageElementArray) {
   // let chainMessages = systemPrompt
-  let chainMessages = [
-    {
-      role: "system",
-      content: systemMessageFull,
-    },
-  ];
+  // let chainMessages = [
+  //   {
+  //     role: "system",
+  //     content: systemMessageFull,
+  //   },
+  // ];
+  let chainMessages = []; // no system message
   for (let el of messageElementArray) {
     if (el.classList.contains("user")) {
       chainMessages.push({
