@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Machine - Infinitely Customizable LLM Chatbot</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="./assets/spreed-dark/spreed (Dark).svg"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.10.0/styles/default.min.css"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/3b0473205a.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../front.css" />
+    <link rel="stylesheet" href="test.css" />
+  </head>
+  <body>
+    <div class="profile-container" id="profile-section">
+      <img
+        src="https://lh3.googleusercontent.com/a/ACg8ocJM6DYgnO3uUjHNSSE7JuCHitGGcqAXOVAfSbURWdcbWLsYIUlc=s96-c"
+        alt="Profile Picture"
+        class="profile-pic"
+        id="profile-pic"
+      />
+      <span class="profile-username" id="username">John Doe</span>
+      <span class="profile-email hidden" id="user-email"
+        >johndoe@example.com</span
+      >
+      <!-- Optional -->
+      <button class="logout-btn" id="logout-button">Logout</button>
+    </div>
+
+    <div id="chat-container">
+      <div id="chat-box">
+        <div id="messages">
+          <div class="branch-container">
+            <div class="branch" id="first-branch">
+              <div
+                id="first-message"
+                class="editable message user"
+                contenteditable="true"
+                data-placeholder="New message"
+              >
+                Hey there...
+              </div>
+              <div class="message bot" data-placeholder="New message">
+                Hi, how may I assist you today? You know I have lots of things
+                to talk about. so feel free to ask anything you might want to
+                know so I can help you accomplish your goals easily and more
+                effectively. ok?
+              </div>
+              <div
+                id="first-message"
+                class="editable message user"
+                contenteditable="true"
+                data-placeholder="New message"
+              >
+                Tell me a joke
+              </div>
+              <div class="message bot" data-placeholder="New message">
+                Blah blah blah...Blah blah blah...Blah blah blah...Blah blah
+                blah...Blah blah blah...Blah blah blah...Blah blah blah...Blah
+                blah blah...Blah blah blah...Blah blah blah...Blah blah
+                blah...Blah blah blah... Even some more Blah blah blah...Blah
+                blah blah...Blah blah blah...Blah blah blah...Blah blah
+                blah...Blah blah blah...Blah blah blah...Blah blah blah...Blah
+                blah blah...Blah blah blah...Blah blah blah...Blah blah blah...
+              </div>
+              <div
+                id="first-message"
+                class="editable message user"
+                contenteditable="true"
+                data-placeholder="New message"
+              >
+                lol. funny
+              </div>
+              <div class="message bot" data-placeholder="New message">
+                Glad you liked it. You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- add load save buttons -->
+        <div class="button-box" id="loadSaveContainer">
+          <button>Load</button>
+          <button>Save</button>
+          <button>Reset</button>
+          <button>Zoom out</button>
+        </div>
+        <!-- END load save buttons -->
+      </div>
+    </div>
+    <footer>
+      <p>&copy; 2024 Spreed.chat. All rights reserved.</p>
+      <p>
+        <a href="privacy.html" style="text-decoration: none; color: #007bff"
+          >Privacy Policy</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>

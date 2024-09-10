@@ -1,0 +1,56 @@
+.profile-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  /* background-color: #fffacd; */
+  background-color: #e6f7ff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  position: fixed; /* Make the profile section fixed */
+  top: 0; /* Stick it to the top of the viewport */
+  width: 100%; /* Ensure the profile container spans the full width */
+  z-index: 100; /* Make sure it stays above other elements */
+}
+
+.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Circular profile picture */
+  margin-right: 15px; /* Spacing between picture and name */
+}
+
+.profile-username {
+  font-size: 14px;
+  font-weight: bold;
+  color: #0056b3; /* Matches blue color theme */
+  margin-right: 15px;
+}
+
+.profile-email {
+  font-size: 12px;
+  color: #555; /* Subtle color for email display */
+  margin-right: 15px;
+}
+
+.logout-btn {
+  background-color: #e6f7ff; /* Light blue background */
+  color: #0056b3; /* Blue text to match buttons */
+  border: 1px solid #0056b3; /* Add a border for better definition */
+  border-radius: 5px;
+  padding: 6px 6px; /* Slightly smaller padding to fit in the header */
+  margin-left: 15px; /* Space between the username and button */
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px; /* Adjust font size to align with profile text */
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #0056b3; /* Darker blue background on hover */
+  color: #ffffff; /* White text on hover */
+}
+
+.logout-btn:active {
+  background-color: #003f8a; /* Darker blue on click */
+  color: #ffffff;
+}

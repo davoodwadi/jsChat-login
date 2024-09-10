@@ -234,11 +234,6 @@ export const createProfileSection = (profile) => {
   profileSection.id = "profileSection";
   profileSection.classList.add("authentication-box");
 
-  // payment button
-  const payButton = profileSection.querySelector("#payButton");
-  // END payment button
-  
-  
   return profileSection;
 };
 

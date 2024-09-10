@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Machine - Infinitely Customizable LLM Chatbot</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="./assets/spreed-dark/spreed (Dark).svg"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.10.0/styles/default.min.css"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/3b0473205a.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../front.css" />
+  </head>
+  <body>
+    <div id="chat-container">
+      <div id="authenticate" class="authentication-box">
+        <!-- profile section goes here -->
+        <div class="profile-section" id="profileBox">
+          <div>
+            <h1 class="profile-title">
+              Welcome,
+              <span id="profileUsername">Davood Wadi</span>
+            </h1>
+          </div>
+          <div class="profile-box">
+            <p class="profile-label">
+              Tokens remaining:
+              <span><i id="tokensRemaining">100,000</i></span>
+            </p>
+          </div>
+          <div class="profile-box">
+            <span class="profile-label"
+              >Quota refreshed at
+              <span
+                ><i id="quotaRefreshedAt"
+                  >August 31, 2024 at 03:30 AM GMT+3:30</i
+                ></span
+              ></span
+            >
+          </div>
+
+          <form action="/create-checkout-session" method="POST">
+            <button type="submit" id="payButton">Top up</button>
+          </form>
+          <!-- END: profile section -->
+        </div>
+        <div class="button-box">
+          <button id="logoutButton">Logout</button>
+        </div>
+      </div>
+      <div id="chat-box">
+        <div id="messages">
+          <div class="branch-container">
+            <div class="branch" id="first-branch">
+              <div
+                id="first-message"
+                class="editable message user"
+                contenteditable="true"
+                data-placeholder="New message"
+              ></div>
+            </div>
+          </div>
+        </div>
+        <!-- add load save buttons -->
+        <div class="button-box" id="loadSaveContainer">
+          <button>Load</button>
+          <button>Save</button>
+          <button>Reset</button>
+          <button>Zoom out</button>
+        </div>
+        <!-- END load save buttons -->
+      </div>
+    </div>
+    <footer>
+      <p>&copy; 2024 Spreed.chat. All rights reserved.</p>
+      <p>
+        <a href="privacy.html" style="text-decoration: none; color: #007bff"
+          >Privacy Policy</a
+        >
+      </p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@latest/build/highlight.min.js"></script>
+    <!-- <script type="module" src="front.js"></script> -->
+  </body>
+</html>

@@ -1,0 +1,334 @@
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #333;
+  /* background-color: #f9f9f9; */
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #e6f7ff; /* Blue background */
+  /* color: #fff; */
+}
+
+header .logo a {
+  display: flex;
+  align-items: center;
+}
+
+header .logo img {
+  height: 40px; /* Adjust the height as needed */
+}
+
+header nav a {
+  /* color: #fff; */
+  margin: 0 15px;
+  font-weight: bold;
+}
+
+header nav a:hover {
+  text-decoration: underline;
+}
+/* 
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+} */
+.hero-two {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* First column takes 1 part, second column takes 2 parts */
+  justify-content: center;
+  align-items: center;
+  padding: 40px 40px;
+}
+
+.hero-two-item {
+  position: relative;
+  background-color: #ffffff; /* Background for each GIF item */
+  /* border-radius: 10px;  */
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  */
+  padding: 10px;
+}
+
+.hero-two-item img {
+  max-width: 100%; /* Ensure GIF fits the container */
+  height: auto; /* Maintain aspect ratio */
+  border: 2px solid #000000;
+  border-radius: 20px;
+  box-shadow: 6px 4px 8px -2px;
+}
+
+.hero-two-item p {
+  margin-top: 10px;
+  font-size: 1em;
+  color: #333; /* Text color */
+}
+
+.hero-gif {
+  max-width: 90%; /* Responsive GIF width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Optional: Rounded corners */
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+  /* height: 100vh;  */
+  background-color: #f0f0f0; /* Light background color */
+}
+
+.feature-carousel {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.carousel-item {
+  min-width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.carousel-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.carousel-item p {
+  margin-top: 10px;
+  font-size: 1em;
+  color: #333;
+}
+
+/* Style for the navigation buttons */
+.carousel-prev,
+.carousel-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  color: #ffffff; /* White icon color */
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%; /* Circular buttons */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+  background-color: rgba(0, 0, 0, 0.8); /* Darker on hover */
+}
+
+.carousel-prev {
+  left: 10px;
+}
+
+.carousel-next {
+  right: 10px;
+}
+
+.carousel-prev i,
+.carousel-next i {
+  font-size: 1.5rem; /* Icon size */
+}
+
+.feature-showcase {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.gif-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(300px, 1fr)
+  ); /* Responsive grid */
+  gap: 20px; /* Space between items */
+  justify-content: center;
+  padding: 40px 40px;
+}
+
+.gif-item {
+  position: relative;
+  background-color: #ffffff; /* Background for each GIF item */
+  /* border-radius: 10px;  */
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  */
+  padding: 10px;
+}
+
+.gif-item img {
+  max-width: 100%; /* Ensure GIF fits the container */
+  height: auto; /* Maintain aspect ratio */
+  /* border-radius: 10px;  */
+}
+
+.gif-item p {
+  margin-top: 10px;
+  font-size: 1em;
+  color: #333; /* Text color */
+}
+
+.gif-container {
+  position: relative; /* Needed for positioning the text over the GIF */
+  text-align: center; /* Center-align text */
+}
+
+.showcase-gif {
+  max-width: 100%; /* Responsive GIF width */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 10px; /* Optional: Rounded corners */
+}
+
+.gif-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the text */
+  color: #ffffff; /* White text for contrast */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  padding: 20px;
+  border-radius: 10px; /* Optional: Rounded corners for text background */
+  max-width: 80%; /* Optional: Control width of text container */
+}
+
+.gif-text h1 {
+  font-size: 2em; /* Adjust as needed */
+  margin: 0;
+}
+
+.gif-text p {
+  font-size: 1.2em; /* Adjust as needed */
+}
+
+.hero-text h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.hero-text p {
+  font-size: 18px;
+  line-height: 1.6;
+  max-width: 800px;
+  margin-bottom: 20px;
+}
+
+.cta-buttons {
+  margin-top: 20px;
+}
+
+.cta-buttons .btn {
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin: 5px;
+  display: inline-block;
+}
+
+.cta-buttons .btn.primary {
+  background-color: #0056b3;
+  color: #fff;
+}
+
+.cta-buttons .btn.primary:hover {
+  background-color: #003f8a;
+}
+
+.cta-buttons .btn.secondary {
+  background-color: #fff;
+  color: #0056b3;
+  border: 2px solid #0056b3;
+}
+
+.cta-buttons .btn.secondary:hover {
+  background-color: #e6f7ff;
+}
+
+.features {
+  padding: 40px 20px;
+  text-align: center;
+  background: #fff;
+}
+
+.features h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.feature {
+  margin: 20px;
+}
+
+.feature h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.pricing {
+  padding: 40px 20px;
+  background: #e6f7ff;
+  text-align: center;
+}
+
+.contact {
+  padding: 40px 20px;
+  background: #fff;
+  text-align: center;
+}
+
+.contact a {
+  color: #0056b3;
+}
+
+footer {
+  padding: 20px;
+  background: #0056b3;
+  color: #fff;
+  text-align: center;
+}
+
+.footer-link {
+  color: #fff;
+}
+
+.footer-link:hover {
+  text-decoration: underline;
+}
