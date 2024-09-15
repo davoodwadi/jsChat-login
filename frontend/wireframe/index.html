@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Time Machine - Infinitely Customizable LLM Chatbot</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="../assets/spreed-dark/spreed (Dark).svg"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets@11.10.0/styles/default.min.css"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/3b0473205a.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- dark mode default check -->
+    <script>
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (
+        localStorage.getItem("color-theme") === "dark" ||
+        (!("color-theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        console.log("setting dark mode");
+        document.documentElement.classList.add("dark");
+      } else {
+        console.log("setting light mode");
+        document.documentElement.classList.remove("dark");
+      }
+    </script>
+    <!-- END dark mode default check -->
+    <!-- <link rel="stylesheet" href="test.css" /> -->
+    <link rel="stylesheet" href="../front.css" />
+
+    <!-- <link rel="stylesheet" href="naked.css" /> -->
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950">
+    <!-- profile -->
+    <header>
+      <nav
+        class="bg-slate-50 border-gray-200 px-4 md:px-6 py-2.5 dark:bg-slate-950"
+      >
+        <div
+          class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl"
+        >
+          <a href="https://spreed.chat" class="flex items-center">
+            <img
+              src="../assets/spreed-dark-horizontal-white/spreed-dark-horizontal-white.svg"
+              class="hidden mr-3 h-4 sm:h-9"
+              alt="Spreed Logo"
+              id="logo-white"
+            />
+            <img
+              src="../assets/spreed-dark-horizontal-black/spreed-dark-horizontal-black.svg"
+              class=" hidden mr-3 h-4 sm:h-9"
+              alt="Spreed Logo"
+              id="logo-black"
+            />
+            <!-- <span
+              class="self-center text-xl font-semibold whitespace-nowrap dark:text-white"
+            ></span> -->
+          </a>
+          <div class="flex items-center  md:order-2">
+            <p
+            class="text-gray-800 dark:text-white hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-xs px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+            >100,000 tokens left</p>
+            <a
+              href="#"
+              class="text-gray-50 bg-primary-700 dark:text-white hover:bg-primary-600 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-xs px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:hover:bg-primary-600 focus:outline-none dark:focus:ring-gray-800"
+              >Upgrade</a
+            >
+            
+            
+            <!-- <a
+              href="#"
+              class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-xs px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
+              >Get started</a
+            > -->
+      
+      
+
+            <button
+              data-collapse-toggle="mobile-menu-2"
+              type="button"
+              class="inline-flex items-center p-2 ml-1 text-sm   text-gray-800 dark:text-white hover:bg-gray-200 rounded-lg md:hidden  focus:outline-none focus:ring-2 focus:ring-gray-200  dark:focus:ring-gray-600 dark:hover:bg-gray-700"
+              aria-controls="mobile-menu-2"
+              aria-expanded="false"
+            >
+              <span class="sr-only">Open main menu</span>
+              <svg
+                class="w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <svg
+                class="hidden w-6 h-6"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+            </button>
+          </div>
+          <div
+            class="hidden justify-between items-center w-full md:flex md:w-auto md:order-3"
+            id="mobile-menu-2"
+          >
+            <ul
+              class="flex flex-col mt-4 font-medium md:flex-row md:items-center md:space-x-8 md:mt-0"
+            >
+              <li>
+                <img
+                src="../assets/mehdi.jpg"
+                alt="Profile Picture"
+                  class="block py-2 pr-4 pl-3  md:p-0 rounded-full h-10 sm:h-14"
+                  ></img>
+              </li>
+              <li>
+                <span
+                
+                  class="block font-medium rounded-lg text-xs py-2 pr-4 pl-3 text-gray-800 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                  >John Doe</span
+                >
+              </li>
+              <li>
+                <a
+              href="#"
+              class="block font-medium rounded-lg text-xs py-2 pr-4 pl-3 text-gray-800 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              >Log out</a
+            >
+              </li>
+
+              <li>
+                <div>
+                  <button
+                    id="theme-toggle"
+                    type="button"
+                    
+                    class="text-gray-800 dark:text-white hover:bg-gray-200 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-xs px-4 md:px-5 py-2 md:py-2.5 mr-2 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-gray-800"
+                  >
+                    <svg
+                      id="theme-toggle-dark-icon"
+                      class="hidden w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"
+                      ></path>
+                    </svg>
+                    <svg
+                      id="theme-toggle-light-icon"
+                      class="hidden w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+                <!-- END dark mode button -->
+
+              </li>
+              
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+<!-- END profile -->
+
+    <div id="chat-container">
+      <div id="chat-box">
+        <div id="messages">
+          <div class="branch-container">
+            <div class="branch" id="first-branch">
+
+              <div
+                id="first-message"
+                class="editable bg-primary-300 rounded-md m-2 p-2 dark:bg-primary-950 dark:text-white"
+                contenteditable="true"
+                data-placeholder="New message"
+              >
+                Hey there...
+              </div>
+              <div class="bg-secondary-300 rounded-md m-2 p-2 dark:bg-secondary-950 dark:text-white" data-placeholder="New message">
+                Hi, how may I assist you today? You know I have lots of things
+                to talk about. so feel free to ask anything you might want to
+                know so I can help you accomplish your goals easily and more
+                effectively. ok?
+              </div>
+              <div class="branch-container">
+                <div class="branch">
+                  <div
+                  id="first-message"
+                  class="editable bg-primary-300 rounded-md m-2 p-2 dark:bg-primary-950 dark:text-white"
+                  contenteditable="true"
+                  data-placeholder="New message"
+                >
+                  Tell me a joke
+                </div>
+                <div class=" bg-secondary-300 rounded-md m-2 p-2 dark:bg-secondary-950 dark:text-white" data-placeholder="New message">
+                  Blah blah blah...Blah blah blah...Blah blah blah...Blah blah
+                  blah...Blah blah blah...Blah blah blah...Blah blah blah...Blah
+                  blah blah...Blah blah blah...Blah blah blah...Blah blah
+                  blah...Blah blah blah... Even some more Blah blah blah...Blah
+                  blah blah...Blah blah blah...Blah blah blah...Blah blah
+                  blah...Blah blah blah...Blah blah blah...Blah blah blah...Blah
+                  blah blah...Blah blah blah...Blah blah blah...Blah blah blah...
+                </div>
+
+
+                <div class="branch-container">
+                  <div class="branch">
+                    <div
+                  class="editable bg-primary-300 rounded-md m-2 p-2 dark:bg-primary-950 dark:text-white"
+                  contenteditable="true"
+                  data-placeholder="New message"
+                ></div>
+                  </div>
+
+                </div>
+                </div>
+                
+                  <div class="branch">
+                    <div
+                id="first-message"
+                class="editable bg-primary-300 rounded-md m-2 p-2 dark:bg-primary-950 dark:text-white"
+                contenteditable="true"
+                data-placeholder="New message"
+              >
+                lol. funny
+              </div>
+              <div class=" bg-secondary-300 rounded-md m-2 p-2 dark:bg-secondary-950 dark:text-white" data-placeholder="New message">
+                Glad you liked it. You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?
+              </div>
+              <div class="branch-container">
+                <div class="branch">
+                  <div
+                id="first-message"
+                class="editable  bg-primary-300 rounded-md m-2 p-2 dark:bg-primary-950 dark:text-white"
+                contenteditable="true"
+                data-placeholder="New message"
+              ></div>
+                </div>
+              </div>
+                  </div>
+
+
+                  <div class="branch">
+                    <div
+                id="first-message"
+                class="editable  bg-primary-300 rounded-md m-2 p-2 dark:bg-primary-950 dark:text-white"
+                contenteditable="true"
+                data-placeholder="New message"
+              >
+                Not funny
+              </div>
+              <div class=" bg-secondary-300 rounded-md m-2 p-2 dark:bg-secondary-950 dark:text-white" 
+              data-placeholder="New message"
+              contenteditable="true"
+              >
+                Glad you liked it. You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?
+                Glad you liked it. You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?
+              </div>
+              <div class="branch-container">
+                <div class="branch">
+                  <div
+                id="first-message"
+                class="editable  bg-primary-300 rounded-md m-2 p-2 dark:bg-primary-950 dark:text-white"
+                contenteditable="true"
+                data-placeholder="New message"
+              ></div>
+                </div>
+              </div>
+                  </div>
+                
+<div class="branch">
+                    <div
+                id="first-message"
+                class="editable  bg-primary-300 rounded-md m-2 p-2 dark:bg-primary-950 dark:text-white"
+                contenteditable="true"
+                data-placeholder="New message"
+              >
+                Not funny again
+              </div>
+              <div class="w-[90vw] bg-secondary-300 rounded-md m-2 p-2 dark:bg-secondary-950 dark:text-white" 
+              data-placeholder="New message"
+              contenteditable="true"
+              >
+              You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?
+                Glad you liked it. You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?
+                Glad you liked it. You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?
+                Glad you liked it. You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?
+                Glad you liked it. You know I have lots of things to talk about.
+                so feel free to ask anything you might want to know so I can
+                help you accomplish your goals easily and more effectively. ok?
+              </div>
+              <div class="branch-container">
+                <div class="branch">
+                  <div
+                id="first-message"
+                class="editable  bg-primary-300 rounded-md m-2 p-2 dark:bg-primary-950 dark:text-white"
+                contenteditable="true"
+                data-placeholder="New message"
+              ></div>
+                </div>
+              </div>
+                  </div>              
+              
+            </div>
+          </div>
+        </div>
+        <!-- add load save buttons -->
+        <div class=" mx-auto flex flex-wrap justify-center" id="loadSaveContainer">
+          <button class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Load</button>
+          <button class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Save</button>
+          <button class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Reset</button>
+          <button class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">Zoom out</button>
+        </div>
+        <!-- END load save buttons -->
+      </div>
+    </div>
+    <!-- <footer>
+      <p>&copy; 2024 Spreed.chat. All rights reserved.</p>
+      <p>
+        <a href="privacy.html" style="text-decoration: none; color: #007bff"
+          >Privacy Policy</a
+        >
+      </p>
+    </footer> -->
+    <footer class="p-4 bg-white border-t-2 border-gray-200 dark:border-gray-500 md:p-8 lg:p-10 dark:bg-gray-800">
+      <div class="mx-auto max-w-screen-xl text-center">
+          <p class="my-6 text-gray-500 dark:text-gray-400">Spreed: Branching LLM Chatbot</p>
+          <ul class="flex flex-wrap justify-center items-center mb-6 text-gray-900 dark:text-white">
+              
+              <li>
+                  <a href="#" class="mr-4 hover:underline md:mr-6">Premium</a>
+              </li>
+              
+              <li>
+                  <a href="privacy.html" class="mr-4 hover:underline md:mr-6">Privacy policy</a>
+              </li>
+          </ul>
+          <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2021-2022 <a href="#" class="hover:underline">Flowbite™</a>. All Rights Reserved.</span>
+      </div>
+    </footer>
+    <!-- <script
+      src="../../node_modules/flowbite/dist/flowbite.js"
+      type="module"
+    ></script> -->
+    <script src="profileTest.js" type="module"></script>
+
+    <script type="module">
+      import { initFlowbite } from "flowbite";
+      console.log(initFlowbite);
+      initFlowbite();
+    </script>
+  </body>
+</html>

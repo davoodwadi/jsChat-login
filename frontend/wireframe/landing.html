@@ -19,24 +19,178 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="landing.css" />
+    <link rel="stylesheet" href="overlay.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-    <header>
-      <div class="logo">
-        <a href="#"></a>
-          <img
-            src="../assets/spreed-dark-horizontal-black/spreed-dark-horizontal-black.svg"
-            alt="Spreed Logo"
-        /></a>
-      </div>
-      <nav>
-        <a href="#features">Features</a>
-        <a href="#pricing">Pricing</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
+        <!-- navbar start -->
+        <nav class="fixed top-0 z-50 w-full bg-[#000000e0]">
+          <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+            <div class="relative flex h-16 items-center justify-between">
+              <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
+                <!-- Mobile menu button-->
+                <button
+                  type="button"
+                  class="relative inline-flex items-center justify-center rounded-md p-2 text-white hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  aria-controls="mobile-menu"
+                  aria-expanded="false"
+                >
+                  <span class="absolute -inset-0.5"></span>
+                  <span class="sr-only">Open main menu</span>
+                  <!--
+                      Icon when menu is closed.
+          
+                      Menu open: "hidden", Menu closed: "block"
+                    -->
+                  <svg
+                    class="block h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                  </svg>
+                  <!--
+                      Icon when menu is open.
+          
+                      Menu open: "block", Menu closed: "hidden"
+                    -->
+                  <svg
+                    class="hidden h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div
+                class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start"
+              >
+                <div class="flex flex-shrink-0 items-center">
+                  <img
+                    class="h-8 w-auto"
+                    src="../assets/spreed-dark-horizontal-white/spreed-dark-horizontal-white.svg"
+                    alt="Spreed.chat"
+                  />
+                </div>
+                <div class="hidden sm:ml-6 sm:block">
+                  <div class="flex space-x-4" id="menu-items">
+                    <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+                    
+                    <button 
+                    class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white"
+                    
+                    >Subscribe
+                    </button>
+                    <a
+                      href="#projects"
+                      class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white"
+                      >Projects</a
+                    >
+                    <a
+                      href="#education"
+                      class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white"
+                      >Education</a
+                    >
+                    <a
+                      href="#research"
+                      class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white"
+                      >Research</a
+                    >
+                    <a
+                      href="#service"
+                      class="rounded-md px-3 py-2 text-sm font-medium text-white hover:bg-gray-700 hover:text-white"
+                      >Service</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+    
+          <!-- Mobile menu, show/hide based on menu state. -->
+          <div class="sm:hidden" id="mobile-menu">
+            <div class="hidden space-y-1 px-2 pb-3 pt-2" id="mobile-menu-items">
+              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+              <a
+                href="#profile"
+                class="block rounded-md bg-gray-900 px-3 py-2 text-base font-medium text-white"
+                aria-current="page"
+                >Profile</a
+              >
+              <a
+                href="#projects"
+                class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white"
+                >Projects</a
+              >
+              <a
+                href="#education"
+                class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white"
+                >Education</a
+              >
+              <a
+                href="#research"
+                class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white"
+                >Research</a
+              >
+              <a
+                href="#service"
+                class="block rounded-md px-3 py-2 text-base font-medium text-white hover:bg-gray-700 hover:text-white"
+                >Service</a
+              >
+            </div>
+          </div>
+        </nav>
+    
+        <!-- navbar end -->
+      </head>
+    
 
     <main>
+
+      <div id="overlay" class="overlay">
+        <div class="overlay-content">
+          <span class="close-btn" id="closeBtn">&times;</span>
+          <h2>Select a Subscription Plan</h2>
+          <div class="plans">
+            <div class="plan">
+              <h3>Basic Plan</h3>
+              <p>$9.99/month</p>
+              <button class="plan-subscribe" data-plan="basic">Subscribe</button>
+            </div>
+            <div class="plan">
+              <h3>Standard Plan</h3>
+              <p>$19.99/month</p>
+              <button class="plan-subscribe" data-plan="standard">
+                Subscribe
+              </button>
+            </div>
+            <div class="plan">
+              <h3>Premium Plan</h3>
+              <p>$29.99/month</p>
+              <button class="plan-subscribe" data-plan="premium">
+                Subscribe
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+  
       <section>
         <div class="hero-two">
           <div class="hero-two-item">
@@ -44,7 +198,7 @@
             <p>Easily branch out your conversations and ask multiple questions with Spreed.</p>
           </div>
           <div class="hero-two-item">
-            <img src="../assets/gifs/premierExports/cryptoSpreedchat_9_23_pallette_5fps.gif" alt="" >
+            <img src="../assets/gifs/inverse/crypto-multi-branch-5fps.gif" alt="" >
           </div>
         </div>
       </section>
@@ -56,7 +210,7 @@
             <p>Easily branch out your conversations and ask multiple questions with Spreed.</p>
           </div>
           <div class="hero-two-item">
-            <img src="../assets/gifs/premierExports/cryptoSpreedchat_27_35_pallette_5fps.gif" alt="" >
+            <img src="../assets/gifs/inverse/crypto-multi-branch-5fps.gif" alt="" >
           </div>
         </div>
       </section>
@@ -109,7 +263,7 @@
         <h2>Explore Our Features</h2>
         <div class="gif-grid">
           <div class="gif-item">
-            <img src="../assets/gifs/premierExports/cryptoSpreedchat_9_23_pallette_5fps.gif" alt="Feature 1 Description">
+            <img src="../assets/gifs/inverse/crypto-multi-branch-5fps.gif" alt="Feature 1 Description">
             <p>Feature 1: Brief description</p>
           </div>
           <div class="gif-item">
@@ -217,5 +371,8 @@
       </p>
     </footer>
     <script src="landing.js"></script>
+    <script src="overlay.js"></script>
+    <script src="navbar.js"></script>
+    
   </body>
 </html>

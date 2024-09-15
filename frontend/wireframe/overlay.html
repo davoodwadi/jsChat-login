@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="overlay.css" />
+    <title>Subscription Overlay</title>
+  </head>
+  <body>
+    <button id="subscribeBtn">Subscribe</button>
+
+    <div id="overlay" class="overlay">
+      <div class="overlay-content">
+        <span class="close-btn" id="closeBtn">&times;</span>
+        <h2>Select a Subscription Plan</h2>
+        <div class="plans">
+          <div class="plan">
+            <h3>Basic Plan</h3>
+            <p>$9.99/month</p>
+            <button class="plan-subscribe" data-plan="basic">Subscribe</button>
+          </div>
+          <div class="plan">
+            <h3>Standard Plan</h3>
+            <p>$19.99/month</p>
+            <button class="plan-subscribe" data-plan="standard">
+              Subscribe
+            </button>
+          </div>
+          <div class="plan">
+            <h3>Premium Plan</h3>
+            <p>$29.99/month</p>
+            <button class="plan-subscribe" data-plan="premium">
+              Subscribe
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="overlay.js"></script>
+  </body>
+</html>
