@@ -1,16 +1,6 @@
-// import {
-//   getDB,
-//   getUser,
-//   addUser,
-//   getAllMatchingUsers,
-//   getLatestSession,
-//   updateInfo,
-//   addSaveContainer,
-//   id2User,
-// } from "./mongo.js";
-import { User } from "./mongooseSchema.js";
+const User = require("./mongooseSchema.js");
 
-export async function load(req, res) {
+async function load(req, res) {
   console.log("calling from outside");
   try {
     console.log("*******Load latest*****************");
@@ -39,7 +29,7 @@ export async function load(req, res) {
   }
 }
 
-export async function save(req, res) {
+async function save(req, res) {
   try {
     console.log("Saving saveContainer*****************");
     const saveContainer = req.body.saveContainer;
@@ -73,7 +63,7 @@ export async function save(req, res) {
   }
 }
 
-export async function signup(req, res) {
+async function signup(req, res) {
   try {
     const newUserName = req.body.username;
     const newPassword = req.body.password;
@@ -103,7 +93,7 @@ export async function signup(req, res) {
   }
 }
 
-export async function login(req, res) {
+async function login(req, res) {
   try {
     const askedUserName = req.body.username;
     const askedPassword = req.body.password;
@@ -151,7 +141,7 @@ export async function login(req, res) {
   }
 }
 
-export function logout(req, res) {
+function logout(req, res) {
   // logout logic
   console.log("*".repeat(50));
   console.log("before logout");
@@ -185,7 +175,7 @@ export function logout(req, res) {
   res.json("Server: logged out successfully.");
 }
 
-export function authenticate(req, res, next) {
+function authenticate(req, res, next) {
   console.log("*".repeat(50));
   console.log("authenticate:**********");
   console.log("req.session.userId");
@@ -200,7 +190,7 @@ export function authenticate(req, res, next) {
   }
 }
 
-export async function profile(req, res) {
+async function profile(req, res) {
   // it goes through authenticate function above
   // Fetch user data using req.session.userId
   console.log("*".repeat(50));
@@ -212,6 +202,8 @@ export async function profile(req, res) {
   res.json(user);
 }
 
-export function test(req, res) {
+function test(req, res) {
   res.json(req.session);
 }
+
+module.exports = { load, save, test };

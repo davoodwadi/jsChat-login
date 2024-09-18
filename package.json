@@ -1,33 +1,23 @@
 {
-  "name": "jwt-login",
+  "name": "jschat-login",
   "version": "1.0.0",
-  "type": "module",
-  "main": "backend/server.js",
-  "scripts": {
-    "devStart": "nodemon backend/loginCode.js"
+  "main": "branching.js",
+  "directories": {
+    "test": "test"
   },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "bcrypt": "^5.1.1",
     "connect-mongodb-session": "^5.0.0",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
+    "express": "^4.21.0",
     "express-session": "^1.18.0",
-    "gpt-tokenizer": "^2.2.1",
-    "mongodb": "^6.8.0",
-    "mongoose": "^8.6.0",
-    "node-fetch": "^3.3.2",
-    "openai": "^4.55.4",
-    "passport": "^0.7.0",
-    "passport-facebook": "^3.0.0",
-    "passport-google-oauth20": "^2.0.0",
-    "passport-local": "^1.0.0",
-    "passport-twitter": "^1.0.4",
-    "stripe": "^16.9.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.4"
+    "gpt-tokenizer": "^2.2.3",
+    "mongoose": "^8.6.3",
+    "openai": "^4.62.0"
   }
 }

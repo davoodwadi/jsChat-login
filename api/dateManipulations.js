@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
-import { User } from "./mongooseSchema.js";
+const mongoose = require("mongoose");
+// import { User } from "./mongooseSchema.js";
+const { User, MAX_TOKENS_PER_MONTH } = require("./mongooseSchema.js");
 const mongoPassword = process.env.mongoPassword;
 // const db = "chat";
 // const mongoURI =
@@ -28,7 +29,7 @@ const mongoPassword = process.env.mongoPassword;
 // refreshQuota(userDb);
 // console.log(userDb);
 
-export async function refreshQuota(userDb) {
+async function refreshQuota(userDb) {
   let newQuotaRefreshedAt = null;
   const quotaRefreshedAt = userDb.quotaRefreshedAt;
   const now = new Date();
@@ -92,3 +93,5 @@ export async function refreshQuota(userDb) {
   }
   return null;
 }
+
+module.exports = refreshQuota;

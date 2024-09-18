@@ -1,7 +1,11 @@
-import { OpenAI } from "openai";
-import fetch from "node-fetch";
-import { encodeChat } from "gpt-tokenizer/model/gpt-4o";
-import { User, MAX_TOKENS_PER_MONTH } from "./mongooseSchema.js";
+// import { OpenAI } from "openai";
+const OpenAI = require("openai");
+// import fetch from "node-fetch";
+const fetch = require("node-fetch");
+
+// import { encodeChat } from "gpt-tokenizer/model/gpt-4o";
+const encodeChat = require("gpt-tokenizer/model/gpt-4o");
+const { User, MAX_TOKENS_PER_MONTH } = require("./mongooseSchema.js");
 
 const openaiToken = process.env.openaiintelChainKey;
 const hfToken = process.env.HF_TOKEN;
@@ -15,7 +19,7 @@ const hfUrl70b =
 const hfUrl405b =
   "https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3.1-405B-Instruct";
 
-export async function streamGpt(req, res) {
+async function streamGpt(req, res) {
   try {
     // touching
     const ipAddress = req.headers["touch"] || req.socket.remoteAddress;
@@ -124,14 +128,14 @@ export async function streamGpt(req, res) {
   }
 }
 
-export function headStreamGpt(req, res) {
+function headStreamGpt(req, res) {
   // You can send back headers as needed
   console.log("HEAD request received");
   res.set("X-Last-Checked", new Date().toUTCString()); // Example header
   res.sendStatus(200); // Responds with 200 OK
 }
 
-export async function getStreamGPT(req, res) {
+async function getStreamGPT(req, res) {
   try {
     console.log("node.js server touched");
     res.json("thank you for touching");
@@ -141,7 +145,7 @@ export async function getStreamGPT(req, res) {
   }
 }
 
-export async function hfCompletions8b(req, res) {
+async function hfCompletions8b(req, res) {
   try {
     const options = {
       method: "POST",
@@ -164,7 +168,7 @@ export async function hfCompletions8b(req, res) {
   }
 }
 
-export async function hfCompletions70b(req, res) {
+async function hfCompletions70b(req, res) {
   try {
     // const { inputs, parameters } = req.body;
     // console.log('req.body');
@@ -191,7 +195,7 @@ export async function hfCompletions70b(req, res) {
   }
 }
 
-export async function getHfCompletions(req, res) {
+async function getHfCompletions(req, res) {
   try {
     console.log("welcome to node.js");
     res.json("welcome to njs");
@@ -201,7 +205,7 @@ export async function getHfCompletions(req, res) {
   }
 }
 
-export async function hfCompletions(req, res) {
+async function hfCompletions(req, res) {
   try {
     // const { inputs, parameters } = req.body;
     console.log("req.body");
@@ -278,3 +282,13 @@ const html = `
   </body>
 </html>
 `;
+
+module.exports = {
+  getHfCompletions,
+  getStreamGPT,
+  headStreamGpt,
+  hfCompletions,
+  hfCompletions70b,
+  hfCompletions8b,
+  streamGpt,
+};

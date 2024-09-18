@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import { User } from "./mongooseSchema.js";
+const mongoose = require("mongoose");
+const { User, MAX_TOKENS_PER_MONTH } = require("./mongooseSchema.js");
 const mongoPassword = process.env.mongoPassword;
 const db = "chat";
 const mongoURI =
@@ -16,7 +16,7 @@ mongoose
 // const user = await User.findOne({ username: "mr" });
 // console.log("resp", user.username);
 
-export async function addUser(info) {
+async function addUser(info) {
   try {
     // Create a new user instance
     const newUser = new User({
@@ -38,3 +38,5 @@ export async function addUser(info) {
     console.error("Error adding user:", error.message);
   }
 }
+
+module.exports = addUser;

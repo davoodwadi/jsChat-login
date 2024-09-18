@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-export const MAX_TOKENS_PER_MONTH = 100000; // 1 million tokens
+const MAX_TOKENS_PER_MONTH = 100000; // 1 million tokens
 // Define the User schema with nested sessions
 const userSchema = new mongoose.Schema({
   id: { type: String },
@@ -32,4 +32,9 @@ const userSchema = new mongoose.Schema({
 });
 
 // Create the model from the schema
-export const User = mongoose.model("plans", userSchema);
+const User = mongoose.model("plans", userSchema);
+
+module.exports = {
+  User,
+  MAX_TOKENS_PER_MONTH,
+};
