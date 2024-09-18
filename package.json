@@ -4,6 +4,8 @@
   "type": "module",
   "main": "backend/server.js",
   "scripts": {
+    "build": "npm install",
+    "start": "node backend/server.js",
     "devStart": "nodemon backend/loginCode.js"
   },
   "author": "",
