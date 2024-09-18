@@ -37,6 +37,8 @@ export async function streamGpt(req, res) {
         " left",
         "*".repeat(10)
       );
+      console.log("req.user.username: ", req.user.username);
+      console.log("req.body: ", req.body);
       const tempMessagesTokens = encodeChat(req.body.messages);
 
       if (userDb.tokensRemaining - tempMessagesTokens.length <= 0) {

@@ -225,6 +225,7 @@ export async function createMessageElement(role, pretext, branch) {
     if (gpt) {
       // let textDecoded = ''
       console.log(`await fetch(apiUrlGPT`);
+      console.log("pretext:", pretext);
       const res = await fetch(apiUrlGPT, {
         method: "POST",
         body: JSON.stringify({

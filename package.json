@@ -7,7 +7,8 @@
     "devStart": "nodemon backend/loginCode.js",
     "dev": "vite frontend/",
     "build": "vite build frontend/",
-    "preview": "vite preview frontend/"
+    "preview": "vite preview frontend/",
+    "start": "node backend/server.js"
   },
   "author": "",
   "license": "ISC",

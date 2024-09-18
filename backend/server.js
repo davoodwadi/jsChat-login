@@ -392,7 +392,7 @@ app.post("/users/save", save);
 // Endpoint to handle API requests
 // app.get("/", (req, res) => res.type('html').send(html));
 // openai endpoint
-app.post("/api/gpt/completions/stream", streamGpt);
+app.post("/api/gpt/completions/stream", express.json(), streamGpt);
 // Adding a HEAD method for the touch
 app.head("/api/gpt/completions/stream", headStreamGpt);
 app.get("/api/gpt/completions/stream", getStreamGPT);
