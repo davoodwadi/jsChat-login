@@ -231,7 +231,8 @@ app.get("/users/logout", function (req, res, next) {
 
 // stripe
 import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_KEY_TEST);
+// const stripe = new Stripe(process.env.STRIPE_KEY_TEST);
+const stripe = new Stripe(process.env.STRIPE_KEY);
 import { product, price } from "./create_price.js";
 // console.log(price)
 // use req.user.username as the session description
