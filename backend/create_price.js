@@ -2,7 +2,7 @@ import { configDotenv } from "dotenv";
 const envLoaded = configDotenv("../.env");
 
 import Stripe from "stripe";
-const stripe = new Stripe(process.env.STRIPE_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET);
 
 // export const product = await stripe.products.create({
 //     name: '100k tokens',
