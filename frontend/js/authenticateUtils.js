@@ -182,6 +182,9 @@ export const createLoadSave = (zoomFactor, fontSize) => {
       // change text to zoomout
       zoomOutButton.textContent = "Zoom Out";
     }
+    // reset other messages
+    const messages = document.querySelector("#messages");
+    resetWidth(messages, null);
   });
 
   loadSaveContainer.appendChild(loadButton);

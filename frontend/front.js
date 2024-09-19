@@ -22,7 +22,8 @@ import { createMessageElement } from "./js/chatUtils.js";
 
 const dots = createDots("bot");
 const dotsUser = createDots("user");
-
+dots.style.minWidth = "90vw";
+dotsUser.style.minWidth = "90vw";
 // change fontsize to zoom
 
 const zoomFactor = 4;

@@ -1,3 +1,33 @@
+export function setAttributeForOtherMessages(thisElement) {
+  let element = thisElement.parentElement.parentElement;
+  while (element.id !== "chat-container") {
+    setAttributeForMessageParentsInner(element);
+    element = element.parentElement;
+  }
+}
+export function resetWidth(element, exceptElement) {
+  // get all message elements
+  const allMessages = element.querySelectorAll(".message");
+  // console.log(allMessages);
+  for (const message of allMessages) {
+    // Check if the current element is the one to exclude
+    if (
+      message !== exceptElement &&
+      !message.classList.contains("dots-message")
+    ) {
+      message.style.maxWidth = ""; // Reset maxWidth to default
+      message.style.minWidth = ""; // Reset minWidth to default
+      // message.style.width = "auto"; // Reset minWidth to default
+      // console.log("reset min-max-Width for:");
+      // console.log(message);
+    }
+  }
+
+  // // Recursively call this function for all child elements
+  // for (let child of element.children) {
+  //   resetWidth(child, exceptElement);
+  // }
+}
 function setAttributeForMessageParentsInner(el) {
   for (let i = el.children.length - 1; i >= 0; i--) {
     const child = el.children[i];

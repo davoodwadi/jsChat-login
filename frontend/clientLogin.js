@@ -101,7 +101,7 @@ export async function loadLatestSession() {
   console.log(res.status); // 200 for success, 404 for 'not found'
   if (res.ok) {
     const responseData = await res.json();
-
+    // console.log(responseData);
     return responseData;
   } else {
     console.error("Error:", res.status, res.statusText);

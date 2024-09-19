@@ -3,7 +3,8 @@ import { getResponseServer } from "../apiModule.js";
 import { mdToHTML } from "../md.js";
 import {
   createDots,
-  setAttributeForMessageParents,
+  setAttributeForOtherMessages,
+  resetWidth,
   showToast,
 } from "./utils.js";
 import { getProfile } from "../clientLogin.js";
@@ -21,6 +22,8 @@ const systemMessageFull = `You are a helpful assistant. You respond to my questi
 let idCounter = 0;
 const dots = createDots("bot");
 const dotsUser = createDots("user");
+dots.style.minWidth = "90vw";
+dotsUser.style.minWidth = "90vw";
 
 const md = markdownIt({
   highlight: function (str, lang) {
@@ -218,6 +221,13 @@ export async function logEvent(event) {
 
 export async function createMessageElement(role, pretext, branch) {
   let messageElement = document.createElement("div");
+  // try to set max-width:;
+  messageElement.style.maxWidth = "95vw";
+  messageElement.style.minWidth = "90vw";
+  // reset other messages
+  const messages = document.querySelector("#messages");
+  resetWidth(messages, messageElement);
+
   if (role === "bot") {
     messageElement.classList.add("editable", "message", role);
     messageElement.contentEditable = true;
@@ -257,8 +267,6 @@ export async function createMessageElement(role, pretext, branch) {
       });
       messageElement.text = "";
 
-      // try to set max-width: 95vw;
-      messageElement.style.maxWidth = "95vw";
       console.log("got stream response => reading it chunk by chunk.");
       try {
         // const textDecoded  = await getDummyMessage()
@@ -289,11 +297,14 @@ export async function createMessageElement(role, pretext, branch) {
         reader.releaseLock();
       } catch (error) {
         console.error("Error reading stream:", error);
-      } finally {
-        // reset max-width for the parents only
-        // messageElement.style.maxWidth= '';
-        setAttributeForMessageParents(messageElement);
       }
+      // finally {
+      // reset max-width for the other messages only
+      // messageElement.style.maxWidth= '';
+      // const messages = document.querySelector("#messages");
+      // resetWidth(messages, messageElement);
+      // setAttributeForOtherMessages(messageElement);
+      // }
     } else {
       const llmResponse = await getResponseServer(pretext);
       console.log(llmResponse);
