@@ -380,8 +380,8 @@ app.post("/signup", (req, res, next) => {
 // test session storage
 app.get("/test-session", test);
 
-app.get("/users/load", load);
-app.post("/users/save", save);
+app.get("/users/load", express.json(), load);
+app.post("/users/save", express.json(), save);
 
 // app.post("/users/signup", signup);
 // app.post("/users/login", login);

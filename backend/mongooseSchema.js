@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const MAX_TOKENS_PER_MONTH = 100000; // 1 million tokens
+export const MAX_TOKENS_PER_MONTH = 100000; // 100k tokens
 // Define the User schema with nested sessions
 const userSchema = new mongoose.Schema({
   id: { type: String },

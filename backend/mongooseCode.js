@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { User } from "./mongooseSchema.js";
 
 import { configDotenv } from "dotenv";
-const envLoaded = configDotenv('../.env')
+const envLoaded = configDotenv("../.env");
 const mongoPassword = process.env.mongoPassword;
 const db = "chat";
 const mongoURI =
@@ -15,6 +15,16 @@ mongoose
   .connect(mongoURI)
   .then(() => console.log("MongoDB connected successfully"))
   .catch((err) => console.error("MongoDB connection error:", err));
+
+// size of document
+// const userDb = await User.findOne({ username: "davoodwadi@gmail.com" });
+// // Convert the Mongoose document to JSON
+// const userJson = userDb.toObject();
+// // Calculate the size of the JSON object in bytes
+// const docSize = Buffer.byteLength(JSON.stringify(userJson), "utf8");
+// // Log the size in bytes and kilobytes
+// console.log(`Document size: ${docSize} bytes`);
+// console.log(`Document size: ${(docSize / 1024).toFixed(2)} KB`);
 
 // const user = await User.findOne({ username: "mr" });
 // user.checkoutSessions.push({
@@ -36,7 +46,7 @@ export async function findCheckoutSessionById(sessionId) {
     // { "checkoutSessions.sessionId": sessionId }
     { checkoutSessions: { $elemMatch: { id: sessionId } } }
   );
-  
+
   return result ? result : null; // Return the found session or null
 }
 
@@ -45,14 +55,14 @@ export async function findCheckoutSessionById(sessionId) {
 // );
 export async function updateCheckoutSessionById(sessionId, newSessionData) {
   const result = await User.findOneAndUpdate(
-      { "checkoutSessions.id": sessionId }, // Query to find the user with the specific session id
-      {
-          $set: {
-              "checkoutSessions.$": newSessionData, // Update the matching session
-              // "tokensRemaining": { $add: [ "$tokensRemaining", "$maxTokensPerMonth" ] } // Update tokensRemaining
-          }
+    { "checkoutSessions.id": sessionId }, // Query to find the user with the specific session id
+    {
+      $set: {
+        "checkoutSessions.$": newSessionData, // Update the matching session
+        // "tokensRemaining": { $add: [ "$tokensRemaining", "$maxTokensPerMonth" ] } // Update tokensRemaining
       },
-      { new: true } // Option to return the updated document
+    },
+    { new: true } // Option to return the updated document
   );
 
   return result ? result : null; // Return the updated user document or null

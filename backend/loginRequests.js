@@ -29,7 +29,7 @@ export async function load(req, res) {
           //{time: , saveContainer:}
           res.status(200).json(latest);
         } else {
-          res.status(200).json({ time: null, saveContainer: null });
+          res.status(400).json({ time: null, saveContainer: null });
         }
       }
     }
@@ -43,7 +43,7 @@ export async function save(req, res) {
   try {
     console.log("Saving saveContainer*****************");
     const saveContainer = req.body.saveContainer;
-
+    console.log("saveContainer: ", saveContainer);
     // const user = await getUser(askedUserName);
     if (!req.user.username) {
       res.json("Not logged in. Please login.");
@@ -53,6 +53,7 @@ export async function save(req, res) {
         res.json("User not found. Please login.");
       } else {
         // await addSaveContainer(user.username, saveContainer);
+
         userDb.sessions.push({
           time: new Date(),
           saveContainer: saveContainer,
@@ -62,7 +63,12 @@ export async function save(req, res) {
         // console.log("userDb.sessions: ", userDb.sessions);
         console.log("adding saveContainer for " + userDb.username);
         const updatedUserDb = await User.findOne({ username: userDb.username });
-        console.log("updatedUserDb: ", updatedUserDb);
+        console.log(
+          "updatedUserDb: final session\n",
+          updatedUserDb.sessions[updatedUserDb.sessions.length - 1]
+        );
+        console.log("length before:", userDb.sessions.length);
+        console.log("length after:", updatedUserDb.sessions.length);
         console.log("******END: Saving saveContainer*****************");
         res.json("success");
       }
